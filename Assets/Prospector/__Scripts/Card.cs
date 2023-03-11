@@ -140,6 +140,42 @@ public class Card : MonoBehaviour
         set { back.SetActive(!value); }
     }
 
+    private SpriteRenderer[] spriteRenderers;
+
+    void PopulateSpriteRenderers() 
+    {
+        if (spriteRenderers != null) return;
+        spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+    }
+
+    public void SetSpriteSortingLayer(string layerName) 
+    {
+        PopulateSpriteRenderers();
+        foreach (SpriteRenderer srend in spriteRenderers) 
+        {
+            srend.sortingLayerName= layerName;
+        }
+    }
+
+    public void SetSortingOrder(int oo) 
+    {
+        PopulateSpriteRenderers();
+        foreach (SpriteRenderer srend in spriteRenderers) 
+        {
+            if (srend.gameObject == this.gameObject)
+            {
+                srend.sortingOrder = oo;
+            }
+            else if (srend.gameObject.name == "back")
+            {
+                srend.sortingOrder = oo + 2;
+            }
+            else 
+            {
+                srend.sortingOrder = oo+1;
+            }
+        }
+    }
 
 
 
