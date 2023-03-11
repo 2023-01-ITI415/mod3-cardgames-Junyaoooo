@@ -22,11 +22,11 @@ public class Deck : MonoBehaviour
 
 
     //// Start is called before the first frame update
-    void Start()
-    {
-        InitDeck();
-       Shuffle(ref cards);
-    }
+    //void Start()
+    //{
+    //    InitDeck();
+    //   Shuffle(ref cards);
+    //}
 
 
     Card MakeCard(char suit, int rank)
@@ -56,7 +56,7 @@ public class Deck : MonoBehaviour
     }
 
 
-    static void Shuffle(ref List<Card> refCards)
+    public static void Shuffle(ref List<Card> refCards)
     {
         List<Card> tCards = new List<Card>();
         int ndx;
