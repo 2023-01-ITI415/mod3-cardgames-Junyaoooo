@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class JsonPip 
 {
     public float scale = 1;
@@ -10,7 +12,7 @@ public class JsonPip
     public string type = "pip";
 }
 
-
+[System.Serializable]
 public class JsonCard 
 {
     public int rank;
@@ -20,7 +22,7 @@ public class JsonCard
 }
 
 
-
+[System.Serializable]
 public class JsonDeck 
 {
     public List<JsonPip>decorators=new List<JsonPip> ();
@@ -30,17 +32,44 @@ public class JsonDeck
 
 public class JsonParseDeck : MonoBehaviour
 {
+    [Header("Inscribed")]
     public TextAsset jsonDeckFile;
+
+    [Header("Dynamic")]
     public JsonDeck deck;
-    // Start is called before the first frame update
+
+
+    private static JsonParseDeck S { get; set; }
+
+
+    //// Start is called before the first frame update
     void Awake()
     {
+        if (S != null)
+        {
+            Debug.LogError("Json be set a 2nd time!");
+            return;
+        }
+
+        S = this;
+
         deck = JsonUtility.FromJson<JsonDeck>(jsonDeckFile.text);
     }
 
-    // Update is called once per frame
-    void Update()
+
+    static public List<JsonPip> DECORATORS
     {
-        
+        get { return S.deck.decorators; }
+    }
+
+
+    static public JsonCard GET_CARD_DEF(int UII)
+    {
+        if ((UII < 1) || (UII > S.deck.cards.Count))
+        {
+            Debug.LogWarning("ILLEGAL RAK ARGUMENTS: " + UII);
+            return null;
+        }
+        return S.deck.cards[UII - 1];
     }
 }
