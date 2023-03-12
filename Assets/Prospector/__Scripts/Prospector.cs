@@ -2,7 +2,6 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditorInternal;
 
 [RequireComponent(typeof(Deck))]
 [RequireComponent(typeof(JsonParseLayout))]
@@ -21,6 +20,8 @@ public class Prospector : MonoBehaviour
     private Deck deck;
     private Transform layoutAnchor;
     private JsonLayout jsonLayout;
+
+    private Dictionary<int, CardProspector> mineIdToCardDict;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +33,8 @@ public class Prospector : MonoBehaviour
         Deck.Shuffle(ref deck.cards);
         drawPile = ConvertCardsToCardProspectors(deck.cards);
         LayoutMine();
+        MoveToTarget(Draw());
+        UpdateDrawPile();
     }
 
     List<CardProspector> ConvertCardsToCardProspectors(List<Card> listCard) 
@@ -55,6 +58,7 @@ public class Prospector : MonoBehaviour
         }
 
         CardProspector cp;
+        mineIdToCardDict = new Dictionary<int, CardProspector>();
         foreach (JsonLayoutSlot s in jsonLayout.slots) 
         {
             cp = Draw();
@@ -72,6 +76,73 @@ public class Prospector : MonoBehaviour
             cp.state = eCardState.mine;
             cp.SetSpriteSortingLayer(s.layer);
             mine.Add(cp);
+            mineIdToCardDict.Add(s.id,cp);
+        }
+    }
+
+    void MoveToDiscard(CardProspector cp) 
+    {
+        cp.state = eCardState.discard;
+        discardPile.Add(cp);
+        cp.transform.SetParent(layoutAnchor);
+        cp.SetlocalPos(new Vector3(
+            jsonLayout.multiplier.x * jsonLayout.discardPile.x,
+            jsonLayout.multiplier.y* jsonLayout.discardPile.y,          
+            0));
+        cp.faceUp = true;
+        cp.SetSpriteSortingLayer(jsonLayout.discardPile.layer);
+        cp.SetSortingOrder(-200 + (discardPile.Count * 3));
+    }
+
+    void MoveToTarget(CardProspector cp) 
+    {
+        if (target != null) 
+        {
+            MoveToDiscard(target);
+        }
+        MoveToDiscard(cp);
+        target = cp;
+        cp.state = eCardState.target;
+        cp.SetSpriteSortingLayer("Target");
+        cp.SetSortingOrder(0);
+    }
+
+    void UpdateDrawPile() 
+    {
+        CardProspector cp;
+        for (int h = 0; h < drawPile.Count; h++) 
+        {
+            cp = drawPile[h];
+            cp.transform.SetParent(layoutAnchor);
+
+            Vector3 cpPos = new Vector3();
+            cpPos.x=jsonLayout.multiplier.x*jsonLayout.drawPile.x;
+            cpPos.x += jsonLayout.drawPile.xStagger * h;
+            cpPos.y = jsonLayout.multiplier.y*jsonLayout.drawPile.y;
+            cpPos.z = 0.1f * h;
+            cp.SetlocalPos(cpPos);
+            cp.faceUp= false;
+            cp.state= eCardState.drawpile;
+            cp.SetSpriteSortingLayer(jsonLayout.drawPile.layer);
+            cp.SetSortingOrder(-10 * h);
+        }
+    }
+
+    public void SetMineFaceUps() 
+    {
+        CardProspector coverCP;
+        foreach (CardProspector cp in mine) 
+        {
+            bool faceUp = true;
+            foreach (int coverID in cp.layoutslot.hiddenBy) 
+            {
+                coverCP = mineIdToCardDict[coverID];
+                if (coverCP == null || coverCP.state == eCardState.mine) 
+                {
+                    faceUp= false;
+                }
+            }
+            cp.faceUp = faceUp;
         }
     }
 
@@ -80,5 +151,29 @@ public class Prospector : MonoBehaviour
         CardProspector cp = drawPile[0];
         drawPile.RemoveAt(0); 
         return (cp);
+    }
+
+    static public void CARD_CLICKED(CardProspector cp) 
+    {
+        switch (cp.state) 
+        {
+            case eCardState.target:
+                break;
+            case eCardState.drawpile:
+                S.MoveToTarget(S.Draw());
+                S.UpdateDrawPile();
+                break;
+            case eCardState.mine:
+                bool validMatch = true;
+                if(!cp.faceUp)validMatch= false;
+                if(!cp.AdjacentTo(S.target)) validMatch= false;
+                if (validMatch) 
+                {
+                    S.mine.Remove(cp);
+                    S.MoveToTarget(cp);
+                    S.SetMineFaceUps();
+                }
+                break;
+        }
     }
 }

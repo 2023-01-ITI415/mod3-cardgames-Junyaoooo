@@ -14,6 +14,11 @@ public class CardProspector : Card
     public List<CardProspector> hiddenBy = new List<CardProspector>();
     public int layoutID;
     public JsonLayoutSlot layoutslot;
+
+    public override void OnMouseUpAsButton()
+    {
+        Prospector.CARD_CLICKED(this);
+    }
     // Start is called before the first frame update
     void Start()
     {
