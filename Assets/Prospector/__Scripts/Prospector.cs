@@ -153,6 +153,24 @@ public class Prospector : MonoBehaviour
         return (cp);
     }
 
+    void CheckGameOver() 
+    {
+        if (mine.Count == 0) 
+        {
+            GameOver(true);
+            return;
+        }
+        if (drawPile.Count > 0) return;
+        foreach (CardProspector cccc in mine) 
+        {
+            if (target.AdjacentTo(cccc)) 
+            {
+                return;
+            }
+        }
+        GameOver(false);
+    }
+
     static public void CARD_CLICKED(CardProspector cp) 
     {
         switch (cp.state) 
@@ -175,5 +193,22 @@ public class Prospector : MonoBehaviour
                 }
                 break;
         }
+
+        S.CheckGameOver();
+    }
+
+    void GameOver(bool win1) 
+    {
+        if (win1)
+        {
+
+        }
+        else 
+        {
+            
+        }
+
+        CardSpritesSO.RESET();
+        SceneManager.LoadScene("_Prospector_Scene_0");
     }
 }
