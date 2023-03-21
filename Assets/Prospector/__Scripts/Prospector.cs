@@ -5,6 +5,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Deck))]
 [RequireComponent(typeof(JsonParseLayout))]
+
 public class Prospector : MonoBehaviour
 {
     private static Prospector S;
@@ -180,6 +181,7 @@ public class Prospector : MonoBehaviour
             case eCardState.drawpile:
                 S.MoveToTarget(S.Draw());
                 S.UpdateDrawPile();
+                ScoreManager.TALLY(eScoreEvent.draw);
                 break;
             case eCardState.mine:
                 bool validMatch = true;
@@ -190,6 +192,7 @@ public class Prospector : MonoBehaviour
                     S.mine.Remove(cp);
                     S.MoveToTarget(cp);
                     S.SetMineFaceUps();
+                    ScoreManager.TALLY(eScoreEvent.mine);
                 }
                 break;
         }
@@ -201,11 +204,11 @@ public class Prospector : MonoBehaviour
     {
         if (win1)
         {
-
+            ScoreManager.TALLY(eScoreEvent.gameWin);
         }
         else 
         {
-            
+            ScoreManager.TALLY(eScoreEvent.gameLoss);
         }
 
         CardSpritesSO.RESET();
