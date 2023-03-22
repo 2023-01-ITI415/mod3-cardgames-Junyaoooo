@@ -16,6 +16,8 @@ public class Prospector : MonoBehaviour
     public List<CardProspector> mine;
     public List<CardProspector> discardPile;
 
+    [Header("Inscribed")]
+    public float roundDelay = 2f;
 
 
     private Deck deck;
@@ -200,6 +202,11 @@ public class Prospector : MonoBehaviour
         S.CheckGameOver();
     }
 
+    void ReloadLevel() 
+    {
+        SceneManager.LoadScene("_Prospector_Scene_0");
+    }
+
     void GameOver(bool win1) 
     {
         if (win1)
@@ -212,6 +219,7 @@ public class Prospector : MonoBehaviour
         }
 
         CardSpritesSO.RESET();
-        SceneManager.LoadScene("_Prospector_Scene_0");
+        Invoke("ReloadLevel", roundDelay);
+       // SceneManager.LoadScene("_Prospector_Scene_0");
     }
 }
