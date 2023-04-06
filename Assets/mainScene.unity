@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 43545272}
   - component: {fileID: 43545271}
   - component: {fileID: 43545270}
+  - component: {fileID: 43545273}
   m_Layer: 5
   m_Name: btnOther
   m_TagString: Untagged
@@ -156,11 +157,11 @@ RectTransform:
   m_Children:
   - {fileID: 1350879167}
   m_Father: {fileID: 680330216}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 217, y: -74.382}
+  m_AnchoredPosition: {x: 217, y: -74.381996}
   m_SizeDelta: {x: 305.329, y: 148.7635}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &43545270
@@ -206,7 +207,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 43545271}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 43545273}
+        m_TargetAssemblyTypeName: SceneChangeController, Assembly-CSharp
+        m_MethodName: LoadScenebtnCardgame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &43545271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,6 +258,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 43545268}
   m_CullTransparentMesh: 1
+--- !u!114 &43545273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 43545268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e64ef501b0d60e24da6959a86d00882e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  a: {fileID: 242337587}
+  aa: {fileID: 0}
+  btnCardgame: {fileID: 43545270}
+  btnProspector: {fileID: 89977436}
 --- !u!1 &89977434
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,6 +286,7 @@ GameObject:
   - component: {fileID: 89977438}
   - component: {fileID: 89977437}
   - component: {fileID: 89977436}
+  - component: {fileID: 89977439}
   m_Layer: 5
   m_Name: btnProspector
   m_TagString: Untagged
@@ -278,7 +308,7 @@ RectTransform:
   m_Children:
   - {fileID: 1123803810}
   m_Father: {fileID: 680330216}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -329,18 +359,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 89977439}
+        m_TargetAssemblyTypeName: SceneChangeController, Assembly-CSharp
+        m_MethodName: LoadSceneProspector
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
+        m_CallState: 0
 --- !u!114 &89977437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,6 +409,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 89977434}
   m_CullTransparentMesh: 1
+--- !u!114 &89977439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 89977434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e64ef501b0d60e24da6959a86d00882e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  a: {fileID: 242337587}
+  aa: {fileID: 0}
+  btnCardgame: {fileID: 43545270}
+  btnProspector: {fileID: 89977436}
 --- !u!1 &242337587
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,6 +586,7 @@ GameObject:
   - component: {fileID: 680330216}
   - component: {fileID: 680330218}
   - component: {fileID: 680330217}
+  - component: {fileID: 680330219}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -560,8 +607,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 257499084}
-  - {fileID: 89977435}
   - {fileID: 43545269}
+  - {fileID: 89977435}
   m_Father: {fileID: 1071467864}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -608,6 +655,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 680330215}
   m_CullTransparentMesh: 1
+--- !u!114 &680330219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 680330215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e64ef501b0d60e24da6959a86d00882e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  a: {fileID: 0}
+  aa: {fileID: 0}
+  btnCardgame: {fileID: 43545270}
+  btnProspector: {fileID: 89977436}
 --- !u!1 &1012617318
 GameObject:
   m_ObjectHideFlags: 0
